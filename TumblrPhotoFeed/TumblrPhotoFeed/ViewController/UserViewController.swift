@@ -12,8 +12,7 @@ import AlamofireImage
 class UserViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
-    @IBOutlet weak var PhotoTable: UITableView!
-    
+    @IBOutlet weak var PhotoTable: PhotoTable!
     
     // creating an array of dictionaries to store posts; initialize to empty array
     var posts: [[String: Any]] = []
@@ -61,6 +60,8 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+    //func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell", for: indexPath as IndexPath) as! PhotoCell
         
         // Configure YourCustomCell using the outlets that you've defined
