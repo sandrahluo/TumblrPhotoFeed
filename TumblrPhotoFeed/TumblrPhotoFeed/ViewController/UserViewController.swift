@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class UserViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    //reference for your table
+    
+    
     @IBOutlet weak var PhotoTable: UITableView!
+    
+    
     // creating an array of dictionaries to store posts; initialize to empty array
     var posts: [[String: Any]] = []
     
@@ -33,6 +37,7 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.posts = responseDictionary["posts"] as! [[String:Any]]
                 
                 // TODO: Reload the table view
+                  self.PhotoTable.reloadData()
             
             }
         }
@@ -58,8 +63,18 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell", for: indexPath as IndexPath) as! PhotoCell
         
-        // Configure YourCustomCell using the outlets that you've defined.
-        
+        // Configure YourCustomCell using the outlets that you've defined
+        let post = posts[indexPath.row]
+        if let photos = post["photos"] as? [[String: Any]] {
+            // photos is NOT nil, we can use it!
+            // TODO: Get the photo url
+            let photo = photos[0]
+            let originalSize = photo["original_size"] as! [String: Any]
+            let urlString = originalSize["url"] as! String
+            let url = URL(string: urlString)
+            cell.photoView.af_setImage(withURL: url!)
+            
+        }
         return cell
     }
     
