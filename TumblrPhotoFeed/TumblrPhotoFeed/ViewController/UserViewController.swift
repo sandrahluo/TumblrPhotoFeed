@@ -11,8 +11,7 @@ import AlamofireImage
 
 class UserViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    
-    @IBOutlet weak var PhotoTable: PhotoTable!
+    @IBOutlet weak var PhotoTable: UITableView!
     
     // creating an array of dictionaries to store posts; initialize to empty array
     var posts: [[String: Any]] = []
@@ -73,7 +72,7 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let originalSize = photo["original_size"] as! [String: Any]
             let urlString = originalSize["url"] as! String
             let url = URL(string: urlString)
-            cell.photoView.af_setImage(withURL: url!)
+            cell.photoImage.af_setImage(withURL: url!)
             
         }
         return cell
