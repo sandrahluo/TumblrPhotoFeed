@@ -10,20 +10,28 @@ import UIKit
 import AlamofireImage
 
 class UserViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    @IBOutlet weak var PhotoTable: UITableView!
-    
     // creating an array of dictionaries to store posts; initialize to empty array
     var posts: [[String: Any]] = []
+    @IBOutlet weak var PhotoTable: UITableView!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        PhotoTable.delegate = self
+        PhotoTable.dataSource = self
+        PhotoTable.rowHeight = 200
 
         // Network request snippet
         let url = URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")!
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 1)
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
         session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
-        let task = session.dataTask(with: url) { (data, response, error) in
+        
+        //print("request \(request)")
+        
+        let task = session.dataTask(with: request) { (data, response, error) in
+            print("inside task")
             if let error = error {
                 print(error.localizedDescription)
             } else if let data = data,
@@ -41,26 +49,17 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         //configure the datasource and delegate of table view
         
-        PhotoTable.delegate = self
-        PhotoTable.dataSource = self
+        
         task.resume()
+        
     }
     
     // set the number of rows for the table view and to return the cell for each row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "This is row \(indexPath.row)"
-        
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-    //func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell", for: indexPath as IndexPath) as! PhotoCell
         
         // Configure YourCustomCell using the outlets that you've defined
@@ -68,13 +67,17 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if let photos = post["photos"] as? [[String: Any]] {
             // photos is NOT nil, we can use it!
             // TODO: Get the photo url
+            
             let photo = photos[0]
             let originalSize = photo["original_size"] as! [String: Any]
             let urlString = originalSize["url"] as! String
             let url = URL(string: urlString)
+            
+            
             cell.photoImage.af_setImage(withURL: url!)
             
         }
+        
         return cell
     }
     
