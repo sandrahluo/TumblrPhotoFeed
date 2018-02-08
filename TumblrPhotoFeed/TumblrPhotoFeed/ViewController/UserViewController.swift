@@ -14,13 +14,12 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var posts: [[String: Any]] = []
     @IBOutlet weak var PhotoTable: UITableView!
     
-    
+    var rowHeight: CGFloat = 50
     
     override func viewDidLoad() {
         super.viewDidLoad()
         PhotoTable.delegate = self
         PhotoTable.dataSource = self
-        PhotoTable.rowHeight = 200
 
         // Network request snippet
         let url = URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")!
@@ -41,10 +40,24 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 // TODO: Get the posts and store in posts property
                 let responseDictionary = dataDictionary["response"] as! [String: Any]
                 self.posts = responseDictionary["posts"] as! [[String:Any]]
+                let post = self.posts.first!
+                if let photos = post["photos"] as? [[String: Any]] {
+                    // photos is NOT nil, we can use it!
+                    // TODO: Get the photo url
+                    
+                    let photo = photos[0]
+                    let originalSize = photo["original_size"] as! [String: Any]
+                    let height = originalSize["height"] as! CGFloat
+                    let width = originalSize["width"] as! CGFloat
+                    let ratio = height/width
+                    
+                    let screenWidth = self.PhotoTable.frame.width
+                    self.rowHeight = screenWidth*ratio
+                }
                 
                 // TODO: Reload the table view
-                  self.PhotoTable.reloadData()
-            
+                self.PhotoTable.reloadData()
+                
             }
         }
         //configure the datasource and delegate of table view
@@ -52,6 +65,10 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         task.resume()
         
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return rowHeight
     }
     
     // set the number of rows for the table view and to return the cell for each row
@@ -74,7 +91,12 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let url = URL(string: urlString)
             
             
-            cell.photoImage.af_setImage(withURL: url!)
+            cell.photoImage.af_setImage(withURL: url!, completion:
+                { _ in
+                    let newFrame = CGRect(x: 0, y: 0,
+                                          width: cell.frame.width, height: cell.frame.height)
+                    cell.photoImage.frame = newFrame
+                })
             
         }
         
