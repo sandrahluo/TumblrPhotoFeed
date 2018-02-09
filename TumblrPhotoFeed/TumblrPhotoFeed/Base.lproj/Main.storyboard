@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Mgp-sV-Rtc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aTO-eV-Ece">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--User View Controller-->
+        <!--Humans of New York-->
         <scene sceneID="7AL-I0-N4D">
             <objects>
                 <viewController id="Mgp-sV-Rtc" customClass="UserViewController" customModule="TumblrPhotoFeed" customModuleProvider="target" sceneMemberID="viewController">
@@ -38,6 +38,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="photoImage" destination="xKc-a8-MZd" id="zt4-Ne-rol"/>
+                                            <segue destination="MLl-Oh-qlK" kind="presentation" id="v8A-kL-sUE"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -46,13 +47,57 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="HrG-68-Sm8"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Humans of New York" id="YET-7L-LF2"/>
                     <connections>
                         <outlet property="PhotoTable" destination="QFB-rJ-ukr" id="WWj-BL-ltT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IXj-Gs-cax" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1408.6956521739132" y="33.423913043478265"/>
+            <point key="canvasLocation" x="1552" y="33"/>
+        </scene>
+        <!--Photo Details View Controller-->
+        <scene sceneID="oNu-ds-ngu">
+            <objects>
+                <viewController id="MLl-Oh-qlK" customClass="PhotoDetailsViewController" customModule="TumblrPhotoFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NlM-j1-PEF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fdo-z8-9d5">
+                                <rect key="frame" x="0.0" y="211" width="414" height="244"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="9D1-7W-t0p"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="dRs-JI-eec"/>
+                    <connections>
+                        <outlet property="PhotoDetail" destination="Fdo-z8-9d5" id="Rmu-6n-YjY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N1c-kX-HRm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2337.68115942029" y="32.608695652173914"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="5j1-Qn-aBW">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aTO-eV-Ece" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ooO-0K-NOY">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Mgp-sV-Rtc" kind="relationship" relationship="rootViewController" id="YbB-8H-bNO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gGf-lb-M72" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="822" y="33"/>
         </scene>
     </scenes>
 </document>
